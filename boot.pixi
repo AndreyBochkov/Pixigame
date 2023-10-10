@@ -1,0 +1,102 @@
+include "constants.txt"
+include "functions"
+
+x = 0
+y = 0
+vx = 0.0
+vy = 0.0
+pvy = 0.0
+HPXSIZE = PXSIZE / 2
+HPYSIZE = PYSIZE / 2
+state = new( 3, 1, INT8 )
+state[ 0 ] = 0
+state[ 1 ] = 0
+state[ 2 ] = 0
+
+set_pixel_size(2)
+fit_screen_size()
+
+mainloop:
+
+while( get_event() ) {
+    evt_type = EVT[ EVT_TYPE ]
+    if evt_type == EVT_QUIT { halt }
+    if evt_type == EVT_BUTTONDOWN { // Если нажата какая-нибудь клавиша
+        if EVT[ EVT_KEY ] == 97 { // Если A
+            state[ 0 ] = 1
+        }
+        
+        if EVT[ EVT_KEY ] == 100 { // Если D
+            state[ 1 ] = 1
+        }
+        
+        if EVT[ EVT_KEY ] == 32 && abs(vy) < 0.1 && abs(pvy) < 0.1 { // Если пробел и если мы стоим на земле
+            if state[ 2 ] {
+                vy = state[ 2 ] * ( -5 )
+                state[ 2 ] = 0
+            } else {
+                vy = -5
+            }
+        }
+        
+        if EVT[ EVT_KEY ] == 156 || EVT[ EVT_KEY ] == 99 { // Если Shift или C
+            state[ 2 ] + 1
+            
+            if state[ 2 ] > MAXENERGY { state[ 2 ] = MAXENERGY }
+        }
+    }
+    
+    if evt_type == EVT_BUTTONUP { // Если какая-нибудь клавиша отпущена
+        if EVT[ EVT_KEY ] == 97 { // Если A
+            state[ 0 ] = 0
+        }
+        
+        if EVT[ EVT_KEY ] == 100 { // Если D
+            state[ 1 ] = 0
+        }
+    }
+}
+
+if state[ 0 ] { // Влево
+    vx - 0.5
+    
+    if state[ 2 ] {
+        vx = state[ 2 ] * ( -5 )
+        state[ 2 ] = 0
+    }
+}
+
+if state[ 1 ] { // Вправо
+    vx + 0.5
+    
+    if state[ 2 ] {
+        vx = state[ 2 ] * 5
+        state[ 2 ] = 0
+    }
+}
+
+pvy = vy
+vy + GRAVITY
+x + vx
+y + vy
+
+if y > hysize - HPYSIZE - 5 { y = hysize - HPYSIZE - 5 vy = 0.0 vx * FLOORFRICTION } // Пол
+if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
+if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
+
+if ceil( WINDOW_XSIZE ) != ceil( hxsize ) || ceil( WINDOW_YSIZE ) != ceil( hysize ) { fit_screen_size() }
+clear( #006464 )
+col = #64ff64
+if state[ 2 ] {
+    $temp = 105 + 150 * state[ 2 ] / MAXENERGY
+    col = get_color( $temp, 255, $temp )
+}
+fbox( x - HPXSIZE, y - HPYSIZE, PXSIZE, PYSIZE, col )
+if DEBUG {
+    t = ""
+    sprintf( t, "x %d vx %d\ny %d vy %d\nkey %d\nstate %d %d %d", x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ] )
+    print(t, -hxsize, -hysize, WHITE, TOP | LEFT)
+}
+frame( 1000 / USERFPS )
+
+go mainloop

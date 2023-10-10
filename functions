@@ -1,0 +1,10 @@
+fn fit_screen_size()
+{
+    resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
+
+    scr = get_screen()
+    xsize = get_xsize( scr )
+    ysize = get_ysize( scr )
+    hxsize = xsize div 2
+    hysize = ysize div 2
+}

@@ -85,19 +85,7 @@ else { vx * AIRRESISTANCE }
 if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
 if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
 
-if ceil( WINDOW_XSIZE ) != ceil( hxsize ) || ceil( WINDOW_YSIZE ) != ceil( hysize ) { fit_screen_size() }
-clear( #006464 )
-col = #64ff64
-if state[ 2 ] {
-    $temp = 105 + 150 * state[ 2 ] / MAXENERGY
-    col = get_color( $temp, 255, $temp )
-}
-fbox( x - HPXSIZE, y - HPYSIZE, PXSIZE, PYSIZE, col )
-if DEBUG {
-    t = ""
-    sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d", x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ] )
-    print(t, -hxsize, -hysize, WHITE, TOP | LEFT)
-}
-frame( 1000 / USERFPS )
+if ceil( WINDOW_XSIZE ) != ceil( xsize ) || ceil( WINDOW_YSIZE ) != ceil( ysize ) { fit_screen_size() }
+draw()
 
 go mainloop

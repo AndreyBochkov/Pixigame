@@ -1,5 +1,4 @@
-fn fit_screen_size()
-{
+fn fit_screen_size() {
     resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
     scr = get_screen()

@@ -32,7 +32,7 @@ while( get_event() ) {
         
         if EVT[ EVT_KEY ] == 32 && abs(vy) < 0.1 && abs(pvy) < 0.1 { // Если пробел и если мы стоим на земле
             if state[ 2 ] {
-                vy = state[ 2 ] * ( -5 )
+                vy = state[ 2 ] * ( -DASH )
                 state[ 2 ] = 0
             } else {
                 vy = -5
@@ -61,7 +61,7 @@ if state[ 0 ] { // Влево
     vx - 0.5
     
     if state[ 2 ] {
-        vx = state[ 2 ] * ( -5 )
+        vx = state[ 2 ] * ( -DASH )
         state[ 2 ] = 0
     }
 }
@@ -70,7 +70,7 @@ if state[ 1 ] { // Вправо
     vx + 0.5
     
     if state[ 2 ] {
-        vx = state[ 2 ] * 5
+        vx = state[ 2 ] * DASH
         state[ 2 ] = 0
     }
 }
@@ -81,6 +81,7 @@ x + vx
 y + vy
 
 if y > hysize - HPYSIZE - 5 { y = hysize - HPYSIZE - 5 vy = 0.0 vx * FLOORFRICTION } // Пол
+else { vx * AIRRESISTANCE }
 if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
 if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
 
@@ -94,7 +95,7 @@ if state[ 2 ] {
 fbox( x - HPXSIZE, y - HPYSIZE, PXSIZE, PYSIZE, col )
 if DEBUG {
     t = ""
-    sprintf( t, "x %d vx %d\ny %d vy %d\nkey %d\nstate %d %d %d", x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ] )
+    sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d", x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ] )
     print(t, -hxsize, -hysize, WHITE, TOP | LEFT)
 }
 frame( 1000 / USERFPS )

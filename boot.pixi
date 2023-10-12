@@ -80,8 +80,8 @@ vy + GRAVITY
 x + vx
 y + vy
 
-if y > hysize - HPYSIZE - 5 { y = hysize - HPYSIZE - 5 vy = 0.0 vx * FLOORFRICTION } // Пол
-else { vx * AIRRESISTANCE }
+if y > hysize - HPYSIZE - 5 { y = hysize - HPYSIZE - 5 vy = 0.0 vx * FLOORFRICTIONFACTOR } // Пол
+else { vx * AIRRESISTANCEFACTOR }
 if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
 if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
 

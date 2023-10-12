@@ -2,10 +2,10 @@
 GRAVITY = 0.2
 
 // Коэф. изменения попереч. скорости на полу
-FLOORFRICTION = 0.9
+FLOORFRICTIONFACTOR = 0.9
 
 // Коэф. изменения попереч. скорости в воздухе
-AIRRESISTANCE = 0.9
+AIRRESISTANCEFACTOR = 0.95
 
 // Вертикальный размер робота (пикселей*2)
 PYSIZE = 40

@@ -20,7 +20,8 @@ fn draw() {
     
     if DEBUG {
         t = ""
-        sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d", x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ] )
+        sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d\nfps %d\nsizes %d %d",
+            x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ], FPS, xsize, ysize )
         print(t, -hxsize, -hysize, WHITE, TOP | LEFT)
     }
 

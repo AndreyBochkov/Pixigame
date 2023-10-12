@@ -102,8 +102,8 @@ if y > hysize - HPYSIZE - 5 {  // Пол
     vx * AIRRESISTANCEFACTOR 
 }
 
-if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
-if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
+if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -WALLBOUNCINESS ) } // Левая стена
+if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -WALLBOUNCINESS ) } // Правая стена
 
 if WINDOW_XSIZE != xsize || WINDOW_YSIZE != ysize { fit_screen_size() }
 draw()

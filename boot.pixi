@@ -80,12 +80,32 @@ vy + GRAVITY
 x + vx
 y + vy
 
-if y > hysize - HPYSIZE - 5 { y = hysize - HPYSIZE - 5 vy = 0.0 vx * FLOORFRICTIONFACTOR } // Пол
-else { vx * AIRRESISTANCEFACTOR }
+if y > hysize - HPYSIZE - 5 {  // Пол
+    y = hysize - HPYSIZE - 5
+    vx * FLOORFRICTIONFACTOR
+    if vy > 15 {
+
+        if PXSIZE < 50 {
+            PXSIZE = 50
+        }
+
+        if PYSIZE > 5 {
+            PYSIZE = 5
+            y + ( HPYSIZE - 2.5 )
+        }
+        
+        HPXSIZE = PXSIZE / 2
+        HPYSIZE = PYSIZE / 2
+    }
+    vy = 0.0
+} else { 
+    vx * AIRRESISTANCEFACTOR 
+}
+
 if x < - hxsize + HPXSIZE + 5 { x = -hxsize + HPXSIZE + 5 vx = vx * ( -0.5 ) } // Левая стена
 if x > hxsize - HPXSIZE - 5 { x = hxsize - HPXSIZE - 5 vx = vx * ( -0.5 ) } // Правая стена
 
-if ceil( WINDOW_XSIZE ) != ceil( xsize ) || ceil( WINDOW_YSIZE ) != ceil( ysize ) { fit_screen_size() }
+if WINDOW_XSIZE != xsize || WINDOW_YSIZE != ysize { fit_screen_size() }
 draw()
 
 go mainloop

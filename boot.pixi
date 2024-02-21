@@ -21,6 +21,7 @@ mainloop:
 while( get_event() ) {
     evt_type = EVT[ EVT_TYPE ]
     if evt_type == EVT_QUIT { halt }
+    
     if evt_type == EVT_BUTTONDOWN { // Если нажата какая-нибудь клавиша
         if EVT[ EVT_KEY ] == 97 { // Если A
             state[ 0 ] = 1
@@ -31,18 +32,11 @@ while( get_event() ) {
         }
         
         if EVT[ EVT_KEY ] == 32 && abs(vy) < 0.1 && abs(pvy) < 0.1 { // Если пробел и если мы стоим на земле
-            if state[ 2 ] {
-                vy = state[ 2 ] * ( -DASH )
-                state[ 2 ] = 0
-            } else {
-                vy = -5
-            }
+            jump()
         }
         
         if EVT[ EVT_KEY ] == 156 || EVT[ EVT_KEY ] == 99 { // Если Shift или C
-            state[ 2 ] + 1
-            
-            if state[ 2 ] > MAXENERGY { state[ 2 ] = MAXENERGY }
+            energy_plus()
         }
     }
     
@@ -54,6 +48,29 @@ while( get_event() ) {
         if EVT[ EVT_KEY ] == 100 { // Если D
             state[ 1 ] = 0
         }
+    }
+    
+    if evt_type == EVT_MOUSEBUTTONDOWN { // То же управление, но для телефонов
+        if EVT[ EVT_Y ] > hysize / 2 {
+            if EVT[ EVT_X ] > 0 && abs(vy) < 0.1 && abs(pvy) < 0.1 {
+                jump()
+            } else {
+                energy_plus()
+            }
+        }
+        
+        if EVT[ EVT_Y ] < hysize / 2 {
+            if EVT[ EVT_X ] < 0 {
+                state[ 0 ] = 1
+            } else {
+                state[ 1 ] = 1
+            }
+        }
+    }
+    
+    if evt_type == EVT_MOUSEBUTTONUP {
+        state[ 0 ] = 0
+        state[ 1 ] = 0
     }
 }
 
@@ -80,17 +97,17 @@ vy + GRAVITY
 x + vx
 y + vy
 
-if y > hysize - HPYSIZE - 5 {  // Пол
+if y > hysize - HPYSIZE - 5 { // Пол
     y = hysize - HPYSIZE - 5
     vx * FLOORFRICTIONFACTOR
-    if vy > 15 {
+    if vy > 15 { // "Joke" - при сильном столкновении с полом персонажа...
 
         if PXSIZE < 50 {
-            PXSIZE = 50
+            PXSIZE = 50 // ...растягивает...
         }
 
         if PYSIZE > 5 {
-            PYSIZE = 5
+            PYSIZE = 5 // ...и сплющивает
             y + ( HPYSIZE - 2.5 )
         }
         

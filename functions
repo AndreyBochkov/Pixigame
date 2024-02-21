@@ -32,3 +32,17 @@ fn draw() {
 
     frame( 1000 / USERFPS )
 }
+
+fn energy_plus() {
+    state[ 2 ] + 1
+    if state[ 2 ] > MAXENERGY { state[ 2 ] = MAXENERGY }
+}
+
+fn jump() {
+    if state[ 2 ] {
+        vy = state[ 2 ] * ( -DASH )
+        state[ 2 ] = 0
+    } else {
+        vy = -5
+    }
+}

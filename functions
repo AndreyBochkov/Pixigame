@@ -1,5 +1,25 @@
 fn fit_screen_size() {
     resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
+    if pixel_size == 4 {
+        if WINDOW_XSIZE < MAXRAWXSIZE / 4 {
+            set_pixel_size( 2 )
+            pixel_size = 2
+        }
+    } if pixel_size == 2 {
+        if WINDOW_XSIZE >= MAXRAWXSIZE / 2 {
+            set_pixel_size( 4 )
+            pixel_size = 4
+        }
+    } if pixel_size != 2 && pixel_size != 4 {
+        if WINDOW_XSIZE >= MAXRAWXSIZE/pixel_size {
+            set_pixel_size( 4 )
+            pixel_size = 4
+        } else {
+            set_pixel_size( 2 )
+            pixel_size = 2
+        }
+    }
+    
 
     scr = get_screen()
     xsize = get_xsize( scr )
@@ -20,13 +40,13 @@ fn draw() {
     
     if DEBUG {
         t = ""
-        sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d\nfps %d\nsizes %dpx / %dpx",
-            x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ], FPS, xsize, ysize )
+        sprintf( t, "x %d vx %f\ny %d vy %f\nkey %d\nstate %d %d %d\nfps %d\nsizes %dpx / %dpx\nrawsizes %dpx / %dpy\npixelsize %drawpx",
+            x, vx, y, vy, EVT[ EVT_KEY ], state[ 0 ], state[ 1 ], state[ 2 ], FPS, xsize, ysize, xsize*pixel_size, ysize*pixel_size, pixel_size )
         print(t, -hxsize, -hysize, WHITE, TOP | LEFT)
 
         t = ""
-        sprintf( t, "GRAVITY %f\nFLOORFRICTIONFACTOR %f\nAIRRESISTANCEFACTOR %f\nWALLBOUNCINESS %f\nPXSIZE %f\nPYSIZE %f\nUSERFPS %f\nMAXENERGY %f\nDASH %f",
-             GRAVITY, FLOORFRICTIONFACTOR, AIRRESISTANCEFACTOR, WALLBOUNCINESS, PXSIZE, PYSIZE, USERFPS, MAXENERGY, DASH )
+        sprintf( t, "GRAVITY %f\nFLOORFRICTIONFACTOR %f\nAIRRESISTANCEFACTOR %f\nWALLBOUNCINESS %f\nPXSIZE %f\nPYSIZE %f\nUSERFPS %f\nMAXRAWXSIZE %f\nMAXENERGY %f\nDASH %f",
+             GRAVITY, FLOORFRICTIONFACTOR, AIRRESISTANCEFACTOR, WALLBOUNCINESS, PXSIZE, PYSIZE, USERFPS, MAXRAWXSIZE, MAXENERGY, DASH )
         print(t, hxsize, -hysize, WHITE, TOP | RIGHT)
     }
 

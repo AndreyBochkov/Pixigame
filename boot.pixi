@@ -13,7 +13,7 @@ state[ 0 ] = 0
 state[ 1 ] = 0
 state[ 2 ] = 0
 
-set_pixel_size(2)
+pixel_size = get_pixel_size()
 fit_screen_size()
 
 mainloop:
@@ -52,8 +52,10 @@ while( get_event() ) {
     
     if evt_type == EVT_MOUSEBUTTONDOWN { // То же управление, но для телефонов
         if EVT[ EVT_Y ] > hysize / 2 {
-            if EVT[ EVT_X ] > 0 && abs(vy) < 0.1 && abs(pvy) < 0.1 {
-                jump()
+            if EVT[ EVT_X ] > 0 {
+                if abs( vy ) < 0.1 && abs( pvy ) < 0.1 {
+                    jump()
+                }
             } else {
                 energy_plus()
             }
